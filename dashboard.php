@@ -1,9 +1,13 @@
 <?php
 session_start();
+include 'db.php';
+
+
 if (!isset($_SESSION['user'])) {
     header("Location: login.php");
+    exit();
 }
-include 'db.php';
+
 
 $sql = "SELECT * FROM posts ORDER BY created_at DESC";
 $result = $conn->query($sql);
@@ -34,7 +38,7 @@ $result = $conn->query($sql);
                 <h4 class="card-title"><?php echo $row['title']; ?></h4>
                 <p class="card-text"><?php echo substr($row['content'], 0, 100); ?>...</p>
                 
-                <!-- Action Buttons -->
+               
                 <a href="view_post.php?id=<?php echo $row['id']; ?>" class="btn btn-primary btn-sm">Read More</a>
                 <a href="edit_post.php?id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                 <a href="delete_post.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this post?');">Delete</a>
